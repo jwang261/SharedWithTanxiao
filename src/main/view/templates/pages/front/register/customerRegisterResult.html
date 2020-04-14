@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CustomerRegisterSuccess</title>
+</head>
+<body>
+<!--<input type="hidden" id="msg" value="${msg}">-->
+
+<script th:inline="javascript" >
+    th:window.onload = function myFunction() {
+        //var message = [[${msg}]];
+        alert([[${msg}]]);
+        window.location.href="/";
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script>
+    function register(){
+        window.location.href="/pages/front/driverRegisterPage"
+    }
+
+</script>
+<body>
+<div style="position: absolute;left: 0;right: 0; top: 0;bottom: 0;">
+   <div style="display: flex;justify-content: center; margin-top: 10%;">
+       <form class="layui-form" th:action="@{/pages/front/driverLogin}" method="post" style="border: solid #71767a 1px;padding: 20px;border-radius: 10px;box-shadow: 0 0 10px #71767a">
+
+           <div class="layui-form-item">
+               <div style="text-align: center">
+
+                   <div>Driver Login</div>
+
+               </div>
+           </div>
+           <div class="layui-form-item">
+               <div >
+                   <label class="layui-form-label" style="font-size: 12px">PhoneNumber</label>
+                   <div class="layui-input-inline">
+                       <input type="text" name="phoneNum"  autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+           </div>
+           <div class="layui-form-item">
+               <div >
+                   <label class="layui-form-label">Password</label>
+                   <div class="layui-input-inline">
+                       <input type="password" name="pwd" autocomplete="off" class="layui-input">
+                   </div>
+               </div>
+           </div>
+
+           <div class="layui-form-item">
+               <div style="text-align: center">
+
+                   <p th:text="${errorMsg}" th:if="${not #strings.isEmpty(errorMsg)}" style="color: red;"></p>
+
+               </div>
+           </div>
+
+           <div class="layui-form-item">
+               <div class="layui-input-block">
+                   <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">Login</button>
+                   <button type="button" class="layui-btn layui-btn-primary" onclick="register()">Sign up</button>
+               </div>
+           </div>
+       </form>
+
+   </div>
+
+</div>
+
+
+</body>
+</html>

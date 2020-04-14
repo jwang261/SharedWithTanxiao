@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwang261.gourmet.dao.CustomerDao">
+  <resultMap id="BaseResultMap" type="com.jwang261.gourmet.pojo.entity.Customer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+ <!-- <resultMap id="EmailMap" type="com.jwang261.gourmet.pojo.entity.Customer">
+    <>
+
+  </resultMap>
+-->
+
+
+  <sql id="Base_Column_List">
+    id, customer_name, email, birth, phone_num, address, sex, pwd, img
+  </sql>
+  <select id="loginCheck" resultType="com.jwang261.gourmet.pojo.entity.Customer" parameterType="com.jwang261.gourmet.pojo.entity.Customer">
+    select <include refid="Base_Column_List"/> from customer where id=#{id} and pwd=#{pwd}
+  </select>
+  <select id="selectNewId" resultType="int">
+    select LAST_INSERT_ID();
+  </select>
+  <select id="checkRegister" resultType="com.jwang261.gourmet.pojo.entity.Customer">
+    select phone_num, email from customer;
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Customer" useGeneratedKeys="true">
+    insert into customer (customer_name, email, birth, 
+      phone_num, address, sex, 
+      pwd, img)
+    values (#{customerName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{birth,jdbcType=DATE}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
+      #{pwd,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Customer" useGeneratedKeys="true">
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="birth != null">
+        birth,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        #{birth,jdbcType=DATE},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwang261.gourmet.pojo.entity.Customer">
+    update customer
+    <set>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="birth != null">
+        birth = #{birth,jdbcType=DATE},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwang261.gourmet.pojo.entity.Customer">
+    update customer
+    set customer_name = #{customerName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      birth = #{birth,jdbcType=DATE},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

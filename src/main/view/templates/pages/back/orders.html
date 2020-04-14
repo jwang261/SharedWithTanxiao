@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/jquery/jquery.js}"></script>
+</head>
+<body>
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">Unfinished</li>
+        <li>Finished</li>
+        <li>Others</li>
+
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show"><!--a-->
+
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 20%">
+                        <col style="width: 12%">
+                        <col style="width: 8%">
+                        <col style="width: 10%">
+                        <col style="width: 24%;">
+                        <col style="width: 16%">
+                        <col style="width: 10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Count</th>
+                        <th>Total Price</th>
+                        <th>Order Time</th>
+                        <th>State</th>
+                        <th style="text-align: center">Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${place}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+                        <td class="layui-btn layui-btn-radius" style="width:100%" th:onclick="'javascript:confirm(\''+${p.orderDetailId}+'\');'">Confirm</td>
+                    </tr>
+
+                    <tr th:each="p : ${prepare}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+                        <td class="layui-btn layui-btn-radius layui-btn-disabled" style="width:100%">Disabled</td>
+                    </tr>
+                    <tr th:each="p : ${ontheway}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+                        <td class="layui-btn layui-btn-radius layui-btn-disabled" style="width:100%">Disabled</td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+                <div>
+                    <button type="button" class="layui-btn" onclick="history.go(-1)">Back</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 20%;">
+                        <col style="width: 10%">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+                        <col style="width: 24%;">
+                        <col style="width: 26%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Count</th>
+                        <th>Total Price</th>
+                        <th>Order Time</th>
+                        <th>State</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${comment}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+
+                    </tr>
+                    <tr th:each="p : ${confirm}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+
+                    </tr>
+                    <tr th:each="p : ${cancel}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+
+                    </tr>
+                    <tr th:each="p : ${refund}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <button type="button" class="layui-btn" onclick="history.go(-1)">Back</button>
+                </div>
+            </div>
+        </div><!--b-->
+        <div class="layui-tab-item"><!--c-->
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                        <col style="width: 8%">
+                        <col style="width: 10%">
+                        <col style="width: 22%;">
+                        <col style="width: 20%">
+                        <col style="width: 10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Unit Price</th>
+                        <th>Count</th>
+                        <th>Total Price</th>
+                        <th>State</th>
+                        <th>Order Time</th>
+                        <th style="text-align: center">Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="p : ${request}"> <!--row-->
+                        <td th:text="${p.productName}">time</td>
+                        <td th:text="${p.unitPrice}">price</td>
+                        <td th:text="${p.count}">name</td>
+                        <td th:text="${p.totalPrice}">phone</td>
+                        <td th:text="${p.orderTime}">Order Time</td>
+                        <td th:text="${p.stateStr}">state</td>
+
+                        <td class="layui-btn" style="width:100%" th:onclick="'javascript:approve(\''+${p.orderDetailId}+'\');'">Approve</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div>
+                    <button type="button" class="layui-btn" onclick="history.go(-1)">Back</button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element','table', function(){
+        var element = layui.element;
+        var table = layui.table();
+        //…
+    });
+    function confirm(oid) {
+        layui.use('layer', function(){
+            layer.confirm('Are you sure to confirm this order?', {icon: 3, title:'提示'}, function(index){
+                //do something
+
+                $.ajax({
+                    type:"POST",
+                    dataType: "json",
+                    data : {orderDetailId : oid},
+                    url:'/pages/back/confirmOrder',//目标地址
+                    success:function(res){
+                        if(res.state != -1){
+                            layer.close(index);
+                            alert("Changed successfully");
+
+                            location.reload();
+                        }else{
+                            alert("Error");
+                        }
+
+                    }
+                })
+
+
+            });
+
+        });
+
+
+    }
+    function approve(oid) {
+        $.ajax({
+            type:"POST",
+            dataType: "json",
+            data : {orderDetailId : oid},
+            url:'/pages/back/approveRefund',//目标地址
+            success:function(res){
+                if(res.state != -1){
+                    alert("Success");
+                    location.reload();
+                }else{
+                    alert("Error");
+                }
+
+            }
+        })
+
+    }
+</script>
+</body>
+</html>

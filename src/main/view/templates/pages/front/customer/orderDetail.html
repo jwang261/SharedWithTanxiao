@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Order Details</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/jquery/jquery.js}"></script>
+    <!--<script th:src="@{/layui/lay/modules/layer.js}"></script>-->
+</head>
+<body>
+<table class="layui-table" lay-skin="row">
+    <colgroup>
+        <col style="width: 15%">
+        <col style="width: 15%">
+        <col style="width: 15%">
+        <col style="width: 15%;">
+        <col style="width: 20%">
+        <col style="width: 20%;">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Unit Price</th>
+        <th>Count</th>
+        <th>Total Price</th>
+        <th>Restaurant Name</th>
+        <th>Restaurant Phone Number</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${cods}" >
+        <td th:text="${d.productName}">贤心</td>
+        <td th:text="${d.unitPrice}">贤心</td>
+        <td th:text="${d.count}">2016-11-29</td>
+        <td th:text="${d.totalPrice}">贤心</td>
+        <td th:text="${d.restaurantName}">人生就像是一场修行</td>
+        <td th:text="${d.restaurantPhone}">人生就像是一场修行</td>
+    </tr>
+
+
+
+    </tbody>
+</table>
+<div style="display: flex">
+<div style="padding-left: 10px">
+    <a class="layui-btn"  onclick="history.go(-1)">OK</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

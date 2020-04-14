@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwang261.gourmet.dao.RestaurantDao">
+  <resultMap id="BaseResultMap" type="com.jwang261.gourmet.pojo.entity.Restaurant">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="restaurant_name" jdbcType="VARCHAR" property="restaurantName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, restaurant_name, address, phone_num, pwd, img
+  </sql>
+  <select id = "checkRegister" resultType="com.jwang261.gourmet.pojo.entity.Restaurant">
+    select phone_num from restaurant;
+  </select>
+
+
+  <select id="loginCheck" resultType="com.jwang261.gourmet.pojo.entity.Restaurant" parameterType="com.jwang261.gourmet.pojo.entity.Restaurant">
+    select
+    <include refid="Base_Column_List"/>
+    from restaurant
+    where phone_num = #{phoneNum} and pwd =#{pwd};
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from restaurant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from restaurant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Restaurant" useGeneratedKeys="true">
+    insert into restaurant (restaurant_name, address, phone_num, 
+      pwd, img)
+    values (#{restaurantName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{pwd,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Restaurant" useGeneratedKeys="true">
+    insert into restaurant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="restaurantName != null">
+        restaurant_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="restaurantName != null">
+        #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwang261.gourmet.pojo.entity.Restaurant">
+    update restaurant
+    <set>
+      <if test="restaurantName != null">
+        restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwang261.gourmet.pojo.entity.Restaurant">
+    update restaurant
+    set restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

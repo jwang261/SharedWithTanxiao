@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwang261.gourmet.dao.DriverDao">
+  <resultMap id="BaseResultMap" type="com.jwang261.gourmet.pojo.entity.Driver">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
+    <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, driver_name, phone_num, pwd, img
+  </sql>
+  <select id="checkRegister" resultType="com.jwang261.gourmet.pojo.entity.Driver">
+    SELECT phone_num
+    FROM driver;
+  </select>
+  <select id="loginCheck" parameterType="com.jwang261.gourmet.pojo.entity.Driver" resultType="com.jwang261.gourmet.pojo.entity.Driver">
+    select <include refid="Base_Column_List"/>
+    from driver
+    where phone_num = #{phoneNum}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from driver
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from driver
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Driver" useGeneratedKeys="true">
+    insert into driver (driver_name, phone_num, pwd, 
+      img)
+    values (#{driverName,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Driver" useGeneratedKeys="true">
+    insert into driver
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="driverName != null">
+        driver_name,
+      </if>
+      <if test="phoneNum != null">
+        phone_num,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="driverName != null">
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwang261.gourmet.pojo.entity.Driver">
+    update driver
+    <set>
+      <if test="driverName != null">
+        driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwang261.gourmet.pojo.entity.Driver">
+    update driver
+    set driver_name = #{driverName,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

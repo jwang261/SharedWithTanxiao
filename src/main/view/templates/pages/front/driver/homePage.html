@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Driver's Home Page</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/jquery/jquery.js}"></script>
+    <!--<script th:src="@{/layui/lay/modules/layer.js}"></script>-->
+</head>
+<body>
+<table class="layui-table" lay-skin="row">
+    <colgroup>
+        <col style="width: 23%">
+        <col style="width: 22%">
+        <col style="width: 24%">
+        <col style="width: 10%;">
+        <col style="width: 21%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Customer Address</th>
+        <th>Customer Phone Number</th>
+        <th>Order Time</th>
+        <th>Total Price</th>
+        <th>Choose</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="h,hStat : ${homePageList}" >
+        <td th:text="${h.customerAddress}">贤心</td>
+        <td th:text="${h.customerPhoneNum}">2016-11-29</td>
+        <td th:text="${h.orderTime}">人生就像是一场修行</td>
+        <td th:text="${h.totalPrice}">人生就像是一场修行</td>
+        <td>
+            <a class="layui-btn" th:onclick="'javascript:makeSure(\''+${h.recordId}+'\');'" >Select</a>
+            <a class="layui-btn" th:href="@{/pages/driver/goDetail/} + ${h.recordId}" >Detail</a>
+
+        </td>
+    </tr>
+
+
+
+    </tbody>
+</table>
+<div style="display: flex">
+<div style="padding-left: 10px">
+    <a class="layui-btn"  th:href="@{/pages/driver/myOrders}">My Orders</a>
+
+</div>
+    <div style="padding-left: 10px">
+        <a class="layui-btn"  th:href="@{/pages/driver/logout}">Log out</a>
+
+    </div>
+</div>
+<script th:inline="javascript" type="text/javascript">
+    function makeSure(recordId) {
+        layui.use('layer', function(){
+            layer.confirm('Are you sure to confirm customer\'s order?', {icon: 3, title:'提示'}, function(index){
+                //do something
+
+                layer.close(index);
+                window.location = '/pages/driver/selectOrder/' + recordId;
+            });
+
+        });
+    }
+
+    function checkValid() {
+        $.ajax({
+            type:"POST",
+            dataType: "json",
+            url:'/pages/cart/checkEmpty',
+            success:function(res){
+                if(res.state == -1){
+                    alert("Your cart is Empty!");
+
+                }else{
+                    layui.use('layer', function(){
+                        layer.confirm('Are you sure to place your order?', {icon: 3, title:'提示'}, function(index){
+                            //do something
+
+                            layer.close(index);
+                            window.location = '/pages/cart/checkOut';
+                        });
+
+                    });
+
+
+                }
+            }
+
+
+        })
+
+
+
+    }
+
+</script>
+</body>
+</html>

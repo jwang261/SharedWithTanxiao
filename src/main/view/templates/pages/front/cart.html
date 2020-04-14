@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/jquery/jquery.js}"></script>
+    <!--<script th:src="@{/layui/lay/modules/layer.js}"></script>-->
+</head>
+<body>
+<div>
+    EasyGourmet
+</div>
+<div class="layui-row" style="display: flex; align-items: center">
+    <div style="width: 30%" >
+        <img th:src="@{/images/index/food1.jpg}" width="200" height="100"/>
+
+    </div>
+
+
+
+</div>
+<div style="display: flex;">
+    <div style="width: 10%;border: solid red">
+
+    </div>
+    <div style="width: 70%; border: solid red; padding: 20px 10px;">
+        <table class="layui-table">
+            <colgroup>
+                <col style="width: 50%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 20%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Unit Price</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c,cStat : ${cart}" >
+                <td th:text="${c.productName}">贤心</td>
+                <td th:text="${c.count}">2016-11-29</td>
+                <td th:text="${c.price}">人生就像是一场修行</td>
+                <td>
+                    <div style="display: flex">
+                    <a type="button" class="layui-btn layui-btn-sm" th:href="@{/pages/cart/removeCart/} + ${c.productId}">
+                        <i class="layui-icon">&#xe640;</i>Delete
+                    </a>
+                    <a type="button" class="layui-btn layui-btn-sm">
+                        <i class="layui-icon">&#xe602;</i>Detail
+                    </a>
+                    </div>
+                </td>
+            </tr>
+
+            <div style="display: flex">
+                <a class="layui-btn"  onclick="checkEmpty()">Check Out</a>
+                <a class="layui-btn" onclick="window.location='/'">Home Page</a>
+            </div>
+
+            </tbody>
+        </table>
+
+    </div>
+    <div style="width: 20%;border: solid red">
+
+    </div>
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+
+    function requestCart() {
+        $.ajax({
+            type:"POST",
+            dataType: "json",
+            url:'/pages/cart/checkAlreadyLogin',//目标地址
+            success:function(res){
+                if(res.state == -1){
+                    alert("Please login");
+                    window.location='/pages/front/customerLoginPage';
+                }else{
+                    window.location='/pages/cart/customerCart';
+                }
+
+            }
+        })
+
+    }
+    function checkEmpty() {
+        $.ajax({
+            type:"POST",
+            dataType: "json",
+            url:'/pages/cart/checkEmpty',
+            success:function(res){
+                if(res.state == -1){
+                    alert("Your cart is Empty!");
+
+                }else{
+                    layui.use('layer', function(){
+                        layer.confirm('Are you sure to place your order?', {icon: 3, title:'提示'}, function(index){
+                            //do something
+
+                            layer.close(index);
+                            window.location = '/pages/cart/checkOut';
+                        });
+
+                    });
+
+
+                }
+            }
+
+
+        })
+
+
+
+    }
+
+</script>
+
+</body>
+
+</html>

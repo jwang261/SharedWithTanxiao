@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript">
+        function ProcessFile(e) {
+
+            var file = document.getElementById('productImage').files[0];
+
+            if (file) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (event) {
+
+                    var txt = event.target.result;
+
+
+                    var img = document.createElement("img");
+
+                    img.src = txt;//将图片base64字符串赋值给img的src
+
+// console.log(txt);
+
+                    document.getElementById("result").appendChild(img);
+
+                };
+
+            }
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        function contentLoaded() {
+
+            document.getElementById('productImage').addEventListener('change',
+
+                ProcessFile, false);
+
+        }
+
+
+        window.addEventListener("DOMContentLoaded", contentLoaded, false);
+
+    </script>
+</head>
+<body>
+
+<div>
+    <form class="layui-form" method="post" th:action="@{/pages/product/addProduct}" style="padding: 20px">
+        <div style="padding: 10px; ">
+            <div style="margin-left: 50px">
+                <label  class="layui-input-label" >Product Name</label>
+                <div class="layui-input-inline" style="">
+                    <input type="text" name="productName"   lay-verify="required" placeholder="Please Enter" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div style="padding: 10px; ">
+            <div style="margin-left: 50px">
+                <label  class="layui-input-label" >Price for Each</label>
+                <div class="layui-input-inline" style="">
+                    <input type="text" name="price"   lay-verify="required|number" placeholder="Please Enter" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div style="padding: 10px; ">
+            <div style="margin-left: 50px">
+                <label class="layui-input-label">Product Type</label>
+                <div class="layui-input-inline" style="margin-left: 7px; width: 150px;">
+                    <select name="productType" lay-verify="required">
+
+                        <option value="Chinese Food">Chinese Food</option>
+                        <option value="Indian Food">Indian Food</option>
+                        <option value="Western Food">Western Food</option>
+                        <option value="Japanese Food">Japanese Food</option>
+                        <option value="Korean Food">Korean Food</option>
+                        <option value="Drink">Drink</option>
+                        <option value="Dessert" selected>Dessert</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div style="padding: 10px; ">
+            <div style="margin-left: 50px">
+                <label  class="layui-input-label" >Product Image</label>
+                <div class="layui-input-inline" style="">
+                    <input type="file" id="productImage"  name="productImage"/>
+                    <img src="1.jpg">
+                    <div id="result"> </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div style="padding: 10px; ">
+            <div style="margin-left: 60px">
+                <label class="layui-input-label">Description       </label>
+                <div class="layui-input-inline" style="width: 400px;">
+                    <textarea name="description" placeholder="Please Enter" class="layui-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item"  style="padding: 10px; ">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit lay-filter="demo1">Update</button>
+
+            </div>
+        </div>
+        <div class="layui-form-item"  style="padding: 10px; ">
+            <div class="layui-input-block">
+                <button type="button" onclick="history.go(-1)" class="layui-btn" lay-submit lay-filter="demo1">Back</button>
+
+
+            </div>
+        </div>
+        </form>
+
+
+
+    </form>
+</div>
+
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+
+<script>
+    $('#img').on('change',function(){
+
+        var filePath = $(this).val(), //获取到input的value，里面是文件的路径
+
+            fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+
+            src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
+
+
+// 检查是否是图片
+
+        if( !fileFormat.match(/.png|.jpg|.jpeg/) ) {
+
+            error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+
+            return;
+
+        }
+
+
+        $('#cropedBigImg').attr('src',src);
+
+    });
+</script>
+</body>
+</html>

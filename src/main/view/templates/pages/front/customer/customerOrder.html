@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Order</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/jquery/jquery.js}"></script>
+</head>
+<body>
+<div class="layui-tab">
+    <ul class="layui-tab-title">
+        <li class="layui-this">On the way</li><!--has driver-->
+        <li>Preparing</li><!--no driver-->
+        <li>Finished</li><!--has driver-->
+        <li>Reviewed</li><!--has driver-->
+        <li>Other</li><!--depends-->
+
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show"><!--a-->
+
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 24%;">
+                        <col style="width: 10%">
+                        <col style="width: 15%">
+                        <col style="width: 18%">
+                        <col style="width: 15%">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Order Time</th>
+                        <th>Total Price</th>
+                        <th>Driver Name</th>
+                        <th>Driver Phone</th>
+                        <th>State</th>
+                        <td>Detail</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="co : ${ontheway}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                        <td style="display: flex">
+                            <div class="layui-btn layui-btn-radius" style="width:50%" th:onclick="'javascript:confirmConfirm(\''+${co.recordId}+'\');'">Confirm</div>
+                            <div class="layui-btn layui-btn-radius" style="width:50%" th:href="@{/pages/front/goDetail} + @{co.recordId}" >Detail</div>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 24%;">
+                        <col style="width: 10%">
+                        <col style="width: 15%">
+                        <col style="width: 18%">
+                        <col style="width: 15%">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Order Time</th>
+                        <th>Total Price</th>
+                        <th>Driver Name</th>
+                        <th>Driver Phone</th>
+                        <th>State</th>
+                        <td>Detail</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="co : ${prepare}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                        <td style="display: flex">
+                        <div class="layui-btn layui-btn-radius layui-btn-disabled" style="width:50%">Cancel</div>
+                        <div class="layui-btn layui-btn-radius" style="width:50%" th:href="@{/pages/front/goDetail} + @{co.recordId}" >Detail</div>
+                        </td>
+                    </tr>
+                    <tr th:each="co : ${place}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                        <td style="display: flex">
+                            <div class="layui-btn layui-btn-radius" style="width:50%" th:onclick="'javascript:cancelConfirm(\''+${co.recordId}+'\');'">Cancel</div>
+                            <div class="layui-btn layui-btn-radius" style="width:50%" th:href="@{/pages/front/goDetail} + @{co.recordId}" >Detail</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div><!--b-->
+        <div class="layui-tab-item"><!--c-->
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="width: 23%;">
+                        <col style="width: 13%">
+                        <col style="width: 15%">
+                        <col style="width: 18%">
+                        <col style="width: 13%">
+                        <col style="width: 20%;">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Order Time</th>
+                        <th>Total Price</th>
+                        <th>Driver Name</th>
+                        <th>Driver Phone</th>
+                        <th>State</th>
+                        <td>Detail</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="co : ${confirm}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                        <td style="display: flex">
+                            <a type="button" class="layui-btn layui-btn-sm" style="width:33%"  th:href="@{/pages/customer/comment/} + ${co.recordId}">
+                                <i class="layui-icon">&#xe642;</i>Comment
+                            </a>
+                            <a  class="layui-btn layui-btn-sm" style="width:33%"  th:href="@{/pages/customer/goDetail/} + ${co.recordId}">
+                                <i class="layui-icon">&#xe602;</i>Detail
+                            </a>
+                            <button type="button" class="layui-btn layui-btn-sm" style="width:33%"  th:onclick="'javascript:refundConfirm(\''+${co.recordId}+'\');'">
+                                <i class="layui-icon">&#xe1002;</i>Refund
+                            </button>
+
+                         </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div>
+            <table class="layui-table">
+                <colgroup>
+                    <col style="">
+                    <col style="">
+                    <col style="">
+                    <col style="">
+                    <col style="">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Order Time</th>
+                    <th>Total Price</th>
+                    <th>Driver Name</th>
+                    <th>Driver Phone</th>
+                    <th>State</th>
+                    <td>Detail</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="co : ${comment}"> <!--row-->
+                    <td th:text="${co.orderDate}">time</td>
+                    <td th:text="${co.totalPrice}">price</td>
+                    <td th:text="${co.driverName}">name</td>
+                    <td th:text="${co.driverPhoneNum}">phone</td>
+                    <td th:text="${co.stateStr}">state</td>
+                    <td>Detail</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+        </div>
+        <div class="layui-tab-item">
+            <div>
+                <table class="layui-table">
+                    <colgroup>
+                        <col style="">
+                        <col style="">
+                        <col style="">
+                        <col style="">
+                        <col style="">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Order Time</th>
+                        <th>Total Price</th>
+                        <th>Driver Name</th>
+                        <th>Driver Phone</th>
+                        <th>State</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="co : ${request}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                    </tr>
+                    <tr th:each="co : ${refund}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                    </tr>
+                    <tr th:each="co : ${cancel}"> <!--row-->
+                        <td th:text="${co.orderDate}">time</td>
+                        <td th:text="${co.totalPrice}">price</td>
+                        <td th:text="${co.driverName}">name</td>
+                        <td th:text="${co.driverPhoneNum}">phone</td>
+                        <td th:text="${co.stateStr}">state</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div style="display: flex">
+
+            <a class="layui-btn" onclick="window.location='/'">Home Page</a>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element','table', function(){
+        var element = layui.element;
+        var table = layui.table();
+        //…
+    });
+    function cancelConfirm(recordId) {
+        layui.use('layer', function(){
+            layer.confirm('Are you sure to cancel this order?', {icon: 3, title:'提示'}, function(index) {
+                //do something
+                layer.close(index);
+                $.ajax({
+                    type:"POST",
+                    dataType: "json",
+                    data : {recordId : recordId},
+                    url:'/pages/customer/cancel',//目标地址
+                    success:function(res){
+                        if(res.state != -1){
+
+                            alert("Cancel successfully");
+
+                            location.reload();
+                        }else{
+                            alert("Error");
+                        }
+
+                    }
+                })
+            });
+        });
+    }
+    function confirmConfirm(recordId) {
+        layui.use('layer', function(){
+            layer.confirm('Are you sure to confirm this order?', {icon: 3, title:'提示'}, function(index) {
+                //do something
+                layer.close(index);
+                $.ajax({
+                    type:"POST",
+                    dataType: "json",
+                    data : {recordId : recordId},
+                    url:'/pages/customer/confirm',//目标地址
+                    success:function(res){
+                        if(res.state != -1){
+
+                            alert("Confirm successfully");
+
+                            location.reload();
+                        }else{
+                            alert("Error");
+                        }
+
+                    }
+                })
+            });
+        });
+    }
+
+    function refundConfirm(recordId) {
+        layui.use('layer', function(){
+            layer.confirm('Are you sure to request refund for this order?', {icon: 3, title:'提示'}, function(index) {
+                //do something
+                layer.close(index);
+                $.ajax({
+                    type:"POST",
+                    dataType: "json",
+                    data : {recordId : recordId},
+                    url:'/pages/customer/refund',//目标地址
+                    success:function(res){
+                        if(res.state != -1){
+
+                            alert("Request successfully");
+
+                            location.reload();
+                        }else{
+                            alert("Error");
+                        }
+
+                    }
+                })
+            });
+        });
+    }
+</script>
+</body>
+</html>

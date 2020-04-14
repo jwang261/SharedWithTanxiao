@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwang261.gourmet.dao.ProductDao">
+  <resultMap id="BaseResultMap" type="com.jwang261.gourmet.pojo.entity.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_type" jdbcType="VARCHAR" property="productType" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="is_selling" jdbcType="BIT" property="isSelling" />
+    <result column="restaurant_id" jdbcType="INTEGER" property="restaurantId" />
+    <result column="restaurant_name" jdbcType="VARCHAR" property="restaurantName" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jwang261.gourmet.pojo.entity.Product">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, product_name, product_type, price, is_selling, restaurant_id, restaurant_name, 
+    img, description
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <update id="edit" parameterType="com.jwang261.gourmet.pojo.entity.Product">
+    update product
+    set product_name = #{productName},
+    product_type = #{productType},
+    price = #{price},
+    description = #{description},
+    img = #{img}
+    where id = #{id}
+
+  </update>
+  <update id="changeSellById" parameterType="java.lang.Integer">
+    update product
+    set is_selling = 0
+    where id = #{productId}
+  </update>
+  <select id="selectProductByRestaurantId" resultType="com.jwang261.gourmet.pojo.entity.Product" parameterType="java.lang.Integer">
+    select <include refid="Base_Column_List"/>
+    from product
+    where restaurant_id = #{restaurantId} and is_selling = 1;
+  </select>
+  <select id="selectResIdByProductId" parameterType="java.lang.Integer" resultType="int">
+    select restaurant_id
+    from product
+    where id = #{productId}
+  </select>
+  <select id="selectByProductName" parameterType="string" resultType="com.jwang261.gourmet.pojo.entity.Product">
+    select <include refid="Base_Column_List"/>
+    from product
+    where product_name
+    like '%${keyWord}%'
+
+  </select>
+  <select id="listAll" resultType="com.jwang261.gourmet.pojo.entity.Product">
+    select <include refid="Base_Column_List"></include> from product;
+
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Product" useGeneratedKeys="true">
+    insert into product (product_name, product_type, price, 
+      is_selling, restaurant_id, restaurant_name, 
+      img, description)
+    values (#{productName,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, 
+      #{isSelling,jdbcType=BIT}, #{restaurantId,jdbcType=INTEGER}, #{restaurantName,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.Product" useGeneratedKeys="true">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productType != null">
+        product_type,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="isSelling != null">
+        is_selling,
+      </if>
+      <if test="restaurantId != null">
+        restaurant_id,
+      </if>
+      <if test="restaurantName != null">
+        restaurant_name,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="isSelling != null">
+        #{isSelling,jdbcType=BIT},
+      </if>
+      <if test="restaurantId != null">
+        #{restaurantId,jdbcType=INTEGER},
+      </if>
+      <if test="restaurantName != null">
+        #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwang261.gourmet.pojo.entity.Product">
+    update product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        product_type = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="isSelling != null">
+        is_selling = #{isSelling,jdbcType=BIT},
+      </if>
+      <if test="restaurantId != null">
+        restaurant_id = #{restaurantId,jdbcType=INTEGER},
+      </if>
+      <if test="restaurantName != null">
+        restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jwang261.gourmet.pojo.entity.Product">
+    update product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      is_selling = #{isSelling,jdbcType=BIT},
+      restaurant_id = #{restaurantId,jdbcType=INTEGER},
+      restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwang261.gourmet.pojo.entity.Product">
+    update product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      is_selling = #{isSelling,jdbcType=BIT},
+      restaurant_id = #{restaurantId,jdbcType=INTEGER},
+      restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,14 @@
+server:
+  port: 4396
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 541497484
+    url: jdbc:mysql://127.0.0.1:3306/gourmet?serverTimezone=UTC&useUnicode=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true #phone_num -> phoneNum
+  type-aliases-package: com.jwang261.gourmet.pojo.entity
+  mapper-locations: classpath:mybatis/mapper/**/*.xml

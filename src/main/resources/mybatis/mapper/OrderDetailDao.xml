@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwang261.gourmet.dao.OrderDetailDao">
+  <resultMap id="BaseResultMap" type="com.jwang261.gourmet.pojo.entity.OrderDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="record_id" jdbcType="INTEGER" property="recordId" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="restaurant_name" jdbcType="VARCHAR" property="restaurantName" />
+    <result column="restaurant_phone" jdbcType="VARCHAR" property="restaurantPhone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, record_id, product_id, `count`, price, img, restaurant_name, restaurant_phone
+  </sql>
+  <select id="selectRecordIdById" parameterType="java.lang.Integer" resultType="int">
+    select record_id
+    from order_detail
+    where id = #{id}
+
+  </select>
+  <select id="selectByRestaurantPhone" parameterType="java.lang.String" resultType="com.jwang261.gourmet.pojo.entity.OrderDetail">
+    select <include refid="Base_Column_List"/>
+    from order_detail
+    where restaurant_phone = #{PhoneNum};
+  </select>
+  <select id="selectRecordByRecordId" resultType="com.jwang261.gourmet.pojo.entity.Record" parameterType="java.lang.Integer">
+    select <include refid="Base_Column_List"/>
+    from order_detail
+    where record_id = #{recordId};
+  </select>
+  <select id="selectByRecordId" resultType="com.jwang261.gourmet.pojo.entity.OrderDetail" parameterType="java.lang.Integer">
+
+    select <include refid="Base_Column_List"/>
+    from order_detail
+    where record_id = #{recordId};
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.OrderDetail" useGeneratedKeys="true">
+    insert into order_detail (record_id, product_id, `count`, 
+      price, img, restaurant_name, 
+      restaurant_phone)
+    values (#{recordId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, 
+      #{price,jdbcType=DOUBLE}, #{img,jdbcType=VARCHAR}, #{restaurantName,jdbcType=VARCHAR}, 
+      #{restaurantPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jwang261.gourmet.pojo.entity.OrderDetail" useGeneratedKeys="true">
+    insert into order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        record_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="count != null">
+        `count`,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="restaurantName != null">
+        restaurant_name,
+      </if>
+      <if test="restaurantPhone != null">
+        restaurant_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantName != null">
+        #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantPhone != null">
+        #{restaurantPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwang261.gourmet.pojo.entity.OrderDetail">
+    update order_detail
+    <set>
+      <if test="recordId != null">
+        record_id = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        `count` = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantName != null">
+        restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      </if>
+      <if test="restaurantPhone != null">
+        restaurant_phone = #{restaurantPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwang261.gourmet.pojo.entity.OrderDetail">
+    update order_detail
+    set record_id = #{recordId,jdbcType=INTEGER},
+      product_id = #{productId,jdbcType=INTEGER},
+      `count` = #{count,jdbcType=INTEGER},
+      price = #{price,jdbcType=DOUBLE},
+      img = #{img,jdbcType=VARCHAR},
+      restaurant_name = #{restaurantName,jdbcType=VARCHAR},
+      restaurant_phone = #{restaurantPhone,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

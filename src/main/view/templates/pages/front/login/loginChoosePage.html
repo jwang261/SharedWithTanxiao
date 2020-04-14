@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script>
+    function register(){
+        window.location.href="/pages/front/customerRegisterPage"
+    }
+
+</script>
+<body>
+<div style="position: absolute;left: 0;right: 0; top: 0;bottom: 0;">
+   <div style="display: flex;justify-content: center; margin-top: 10%" >
+       <form class="layui-form" th:action="@{/pages/front/customerLogin}" method="post" style="border: solid #71767a 1px;padding: 20px;border-radius: 10px;box-shadow: 0 0 10px #71767a;width: 300px;height: 200px;">
+
+
+           <div class="layui-form-item" align="center" style="margin-top: 5px">
+               <div >
+                   <button onclick="window.location='/pages/front/customerLoginPage'" type="button" class="layui-btn" name="customer" style="width: 150px">Customer</button>
+               </div>
+           </div>
+           <div class="layui-form-item" align="center" >
+               <div >
+                   <button onclick="window.location='/pages/front/restaurantLoginPage'" type="button" class="layui-btn" name="restaurant" style="width: 150px">Restaurant</button>
+               </div>
+           </div>
+           <div class="layui-form-item" align="center" >
+               <div >
+                   <button onclick="window.location='/pages/front/driverLoginPage'" type="button" class="layui-btn" name="driver" style="width: 150px">Driver</button>
+               </div>
+           </div>
+
+           <div class="layui-form-item" align="center" >
+               <div >
+                   <button onclick="window.location='/'" type="button" class="layui-btn" name="back" style="width: 150px">Back</button>
+               </div>
+           </div>
+           <div class="layui-form-item">
+               <div style="text-align: center">
+
+                   <p th:text="${errorMsg}" th:if="${not #strings.isEmpty(errorMsg)}" style="color: red;"></p>
+
+               </div>
+           </div>
+
+
+       </form>
+
+   </div>
+
+</div>
+
+
+</body>
+</html>
